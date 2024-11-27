@@ -1,6 +1,10 @@
 rock_find_qt4(OPTIONAL)
 rock_find_qt5(OPTIONAL Widgets)
 
+# TODO These should be replaced by target_compile_features if possible:
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 if(ROCK_QT_VERSION_4)
     rock_executable(rock_roboviz Main.cpp
         DEPS_PKGCONFIG
