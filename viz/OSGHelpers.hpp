@@ -19,17 +19,13 @@
 #include <kdl/chain.hpp>
 #include <urdf_model/pose.h>
 
-#if SDF_MAJOR_VERSION >= 15
-#include <sdf/sdf.hh>
+#if SDF_MAJOR_VERSION >= 14
+#include <gz/math.hh>
 namespace math = gz::math;
 #else
 #include <ignition/math.hh>
 namespace math = ignition::math;
 #endif
-
-namespace sdf{
-using math::Color;
-}
 
 inline void sdf_to_osg(math::Pose3d const& in, osg::PositionAttitudeTransform& out) {
     out.setPosition(osg::Vec3(in.Pos().X(), in.Pos().Y(), in.Pos().Z()));
@@ -44,13 +40,9 @@ inline void sdf_to_osg(math::Vector3d const& in, osg::Vec3& out) {
     out.set(in.X(), in.Y(), in.Z());
 }
 
-inline void sdf_to_osg(sdf::Color in, osg::Vec4& out) {
+inline void sdf_to_osg(math::Color in, osg::Vec4& out) {
     // TODO Untested what is the lowest SDF version where this works/is required
-#if SDF_MAJOR_VERSION >= 12
     out.set(in.R(), in.G(), in.B(), in.A());
-#else
-    out.set(in.r, in.g, in.b, in.a);
-#endif
 }
 
 //inline void sdf_pose_to_osg(sdf::ElementPtr pose, osg::Vec3& pos, osg::Quat& quat)
