@@ -41,7 +41,6 @@ inline void sdf_to_osg(math::Vector3d const& in, osg::Vec3& out) {
 }
 
 inline void sdf_to_osg(math::Color in, osg::Vec4& out) {
-    // TODO Untested what is the lowest SDF version where this works/is required
     out.set(in.R(), in.G(), in.B(), in.A());
 }
 
