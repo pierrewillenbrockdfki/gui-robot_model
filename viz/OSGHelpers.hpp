@@ -19,18 +19,17 @@
 #include <kdl/chain.hpp>
 #include <urdf_model/pose.h>
 
-// TODO Untested what is the lowest SDF version where this works/is required
 #if SDF_MAJOR_VERSION >= 15
 #include <sdf/sdf.hh>
-namespace math = gz::math::v8;
-namespace sdf{
-using gz::math::Color;
-}
+namespace math = gz::math;
 #else
 #include <ignition/math.hh>
 namespace math = ignition::math;
 #endif
 
+namespace sdf{
+using math::Color;
+}
 
 inline void sdf_to_osg(math::Pose3d const& in, osg::PositionAttitudeTransform& out) {
     out.setPosition(osg::Vec3(in.Pos().X(), in.Pos().Y(), in.Pos().Z()));
@@ -47,7 +46,7 @@ inline void sdf_to_osg(math::Vector3d const& in, osg::Vec3& out) {
 
 inline void sdf_to_osg(sdf::Color in, osg::Vec4& out) {
     // TODO Untested what is the lowest SDF version where this works/is required
-#if SDF_MAJOR_VERSION >= 15
+#if SDF_MAJOR_VERSION >= 12
     out.set(in.R(), in.G(), in.B(), in.A());
 #else
     out.set(in.r, in.g, in.b, in.a);
@@ -434,8 +433,7 @@ inline osg::ref_ptr<osg::Group> make_ellispoid(float xx, float xy, float xz, flo
     osg::ref_ptr<osg::Group> root(new osg::Group());
 
     math::MassMatrix3d M;
-    // TODO Untested what is the lowest SDF version where this works/is required
-#if SDF_MAJOR_VERSION >= 15
+#if SDF_MAJOR_VERSION >= 12
     M.SetMass(m);
     bool ok = M.SetInertiaMatrix(xx, yy, zz, xy, xz, yz);
     if(!ok){
